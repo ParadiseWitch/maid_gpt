@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maid_gpt/comp/bubble.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.convId});
@@ -18,7 +19,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget buildBubbleWidget() {
-    return const Text('');
+    return const Bubble();
   }
 
   Widget buildBubbleListWidget() {
@@ -78,7 +79,10 @@ class _ChatPageState extends State<ChatPage> {
             child: Stack(
               children: <Widget>[
                 Column(
-                  children: <Widget>[buildInputWidget()],
+                  children: <Widget>[
+                    buildBubbleWidget(),
+                    // buildInputWidget(),
+                  ],
                 )
               ],
             ),

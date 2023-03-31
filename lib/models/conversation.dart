@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:maid_gpt/models/message_chat.dart';
 
 class Conversation {

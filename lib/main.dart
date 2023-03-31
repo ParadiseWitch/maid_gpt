@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maid_gpt/pages/chat_page.dart';
 import 'package:maid_gpt/pages/home_page.dart';
 
 void main() {
@@ -16,7 +17,8 @@ class MaidGPT extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'MaidGPT'),
+      // home: const HomePage(title: 'MaidGPT'),
+      home: const ChatPage(convId: ''),
     );
   }
 }
