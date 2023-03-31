@@ -1,14 +1,16 @@
+import 'dart:ffi';
+
 import 'package:maid_gpt/models/message_chat.dart';
-import 'package:uuid/uuid.dart';
 
 class Conversation {
-  Conversation({
-    this.title = '未命名',
-    this.id = '',
-  }) {
-    id = const Uuid().v4();
-  }
+  Conversation({required this.id, required this.title, required this.msgList});
   String id;
   String title;
-  Message? lastMessage;
+  List<Message> msgList;
+
+  Message? getLastMsg() {
+    int n = msgList.length;
+    if (n <= 0) return null;
+    return msgList[n - 1];
+  }
 }

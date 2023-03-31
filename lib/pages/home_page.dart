@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/conversation.dart';
 import 'chat_page.dart';
@@ -19,7 +20,8 @@ class _HomePageState extends State<HomePage> {
 
   // 添加一个会话
   void addConversation() {
-    Conversation newConv = Conversation();
+    Conversation newConv =
+        Conversation(id: const Uuid().v4(), title: '未命名', msgList: []);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ChatPage(convId: newConv.id)));
     setState(() {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         .map((conv) => ListTile(
               leading: const Icon(Icons.chat),
               title: Text(conv.title),
-              subtitle: Text(conv.lastMessage?.msg ?? ''),
+              subtitle: Text(conv.getLastMsg()?.msg ?? ''),
               onTap: () {
                 Navigator.push(
                     context,

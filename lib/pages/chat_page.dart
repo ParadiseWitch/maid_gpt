@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
-  ChatPage({super.key, required this.convId});
+  const ChatPage({super.key, required this.convId});
 
-  late String convId;
+  final String convId;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -34,17 +34,6 @@ class _ChatPageState extends State<ChatPage> {
           color: Colors.white),
       child: Row(
         children: <Widget>[
-          Material(
-            color: Colors.white,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 1),
-              child: IconButton(
-                icon: const Icon(Icons.image),
-                onPressed: () {},
-                color: Colors.grey,
-              ),
-            ),
-          ),
           Flexible(
             child: TextField(
               onSubmitted: (value) {},
