@@ -10,11 +10,12 @@ class Bubble extends StatefulWidget {
 }
 
 class BubbleState extends State<Bubble> {
-  Widget buildRoundRect({required bool isLeft, required Widget child}) {
-    double margin = 10;
-    double padding = 10;
-    double radius = 10;
-    Color bgColor = Colors.green;
+  Widget buildRoundRect(
+      {required bool isLeft, required List<Widget> children}) {
+    double margin = 15;
+    double padding = 12;
+    double radius = 13;
+    Color bgColor = Colors.grey;
 
     return Container(
       margin: EdgeInsets.all(margin),
@@ -28,7 +29,7 @@ class BubbleState extends State<Bubble> {
                 color: bgColor,
                 child: Container(
                   padding: EdgeInsets.all(padding),
-                  child: Wrap(children: [child]),
+                  child: Wrap(children: children),
                 ),
               ),
             )
@@ -41,7 +42,7 @@ class BubbleState extends State<Bubble> {
                 color: bgColor,
                 child: Container(
                   margin: EdgeInsets.all(padding),
-                  child: Wrap(children: [child]),
+                  child: Wrap(children: children),
                 ),
               ),
             ),
@@ -50,9 +51,11 @@ class BubbleState extends State<Bubble> {
 
   @override
   Widget build(BuildContext context) {
-    return buildRoundRect(
-        isLeft: true,
-        child: const Text(
-            'dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'));
+    return buildRoundRect(isLeft: true, children: [
+      const Text(
+          'dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
+      const Text(
+          'dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
+    ]);
   }
 }
