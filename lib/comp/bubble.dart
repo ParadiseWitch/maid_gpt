@@ -14,6 +14,7 @@ class BubbleState extends State<Bubble> {
     double margin = 10;
     double padding = 10;
     double radius = 10;
+    Color bgColor = Colors.green;
 
     return Container(
       margin: EdgeInsets.all(margin),
@@ -24,7 +25,7 @@ class BubbleState extends State<Bubble> {
                   topLeft: Radius.circular(radius),
                   topRight: Radius.circular(radius)),
               child: Container(
-                color: Colors.grey,
+                color: bgColor,
                 child: Container(
                   padding: EdgeInsets.all(padding),
                   child: Wrap(children: [child]),
@@ -37,7 +38,7 @@ class BubbleState extends State<Bubble> {
                   topLeft: Radius.circular(radius),
                   topRight: Radius.circular(radius)),
               child: Container(
-                color: Colors.grey,
+                color: bgColor,
                 child: Container(
                   margin: EdgeInsets.all(padding),
                   child: Wrap(children: [child]),
