@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:maid_gpt/models/message_chat.dart';
 
 class Bubble extends StatefulWidget {
-  const Bubble({super.key});
+  const Bubble({super.key, required this.msg, required this.role});
+
+  final String msg;
+  final Role role;
 
   @override
   State<StatefulWidget> createState() {
@@ -10,38 +14,40 @@ class Bubble extends StatefulWidget {
 }
 
 class BubbleState extends State<Bubble> {
+  String msg = '......';
+
   Widget buildRoundRect(
       {required bool isLeft, required List<Widget> children}) {
-    double margin = 15;
-    double padding = 12;
-    double radius = 13;
+    EdgeInsets margin =
+        const EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15);
+    EdgeInsets padding = const EdgeInsets.all(13);
+    Radius radius = const Radius.circular(13);
     Color bgColor = Colors.grey;
 
     return Container(
-      margin: EdgeInsets.all(margin),
+      constraints: const BoxConstraints(
+        minWidth: 50,
+      ),
+      margin: margin,
       child: isLeft
           ? ClipRRect(
               borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(radius),
-                  topLeft: Radius.circular(radius),
-                  topRight: Radius.circular(radius)),
+                  bottomRight: radius, topLeft: radius, topRight: radius),
               child: Container(
                 color: bgColor,
                 child: Container(
-                  padding: EdgeInsets.all(padding),
+                  padding: padding,
                   child: Wrap(children: children),
                 ),
               ),
             )
           : ClipRRect(
               borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(radius),
-                  topLeft: Radius.circular(radius),
-                  topRight: Radius.circular(radius)),
+                  bottomLeft: radius, topLeft: radius, topRight: radius),
               child: Container(
                 color: bgColor,
                 child: Container(
-                  margin: EdgeInsets.all(padding),
+                  margin: padding,
                   child: Wrap(children: children),
                 ),
               ),
@@ -50,12 +56,14 @@ class BubbleState extends State<Bubble> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.msg.isNotEmpty) msg = widget.msg;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return buildRoundRect(isLeft: true, children: [
-      const Text(
-          'dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
-      const Text(
-          'dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'),
-    ]);
+    return buildRoundRect(
+        isLeft: widget.role == Role.maid, children: [Text(msg)]);
   }
 }

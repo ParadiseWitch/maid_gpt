@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:maid_gpt/comp/bubble.dart';
 
+import '../models/message_chat.dart';
+
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.convId});
 
@@ -19,7 +21,10 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget buildBubbleWidget() {
-    return const Bubble();
+    return const Bubble(
+      msg: '',
+      role: Role.maid,
+    );
   }
 
   Widget buildBubbleListWidget() {
