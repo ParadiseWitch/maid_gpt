@@ -19,7 +19,7 @@ class BubbleState extends State<Bubble> {
   Widget buildRoundRect(
       {required bool isLeft, required List<Widget> children}) {
     EdgeInsets margin =
-        const EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15);
+        const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15);
     EdgeInsets padding = const EdgeInsets.all(13);
     Radius radius = const Radius.circular(13);
     Color bgColor = Colors.grey;
@@ -63,7 +63,14 @@ class BubbleState extends State<Bubble> {
 
   @override
   Widget build(BuildContext context) {
-    return buildRoundRect(
-        isLeft: widget.role == Role.maid, children: [Text(msg)]);
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Align(
+        alignment:
+            widget.role == Role.maid ? Alignment.topLeft : Alignment.topRight,
+        child: buildRoundRect(
+            isLeft: widget.role == Role.maid, children: [Text(msg)]),
+      ),
+    );
   }
 }

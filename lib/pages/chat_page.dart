@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maid_gpt/comp/bubble.dart';
+import 'package:maid_gpt/comp/bubble_comp.dart';
+import 'package:maid_gpt/comp/input_comp.dart';
 
 import '../models/message_chat.dart';
 
@@ -13,61 +14,33 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final TextEditingController textEditingController = TextEditingController();
-  final FocusNode focusNode = FocusNode();
-
   Widget buildTitleBar() {
     return const Text('');
   }
 
-  Widget buildBubbleWidget() {
-    return const Bubble(
-      msg: '',
-      role: Role.maid,
+  Widget buildBubbleWidget(String msg, Role role) {
+    return Bubble(
+      msg: msg,
+      role: role,
     );
   }
 
   Widget buildBubbleListWidget() {
-    return const Text('');
+    return Wrap(
+      children: [
+        buildBubbleWidget('xxxxxxxxxx', Role.user),
+        buildBubbleWidget('xxxxxxxxxxxxxxxxxxxx', Role.maid),
+        buildBubbleWidget('xxxxxxxxxxxxxxxxxxxxxxxx', Role.user),
+        buildBubbleWidget('xxxxx', Role.maid),
+        buildBubbleWidget(
+            'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            Role.maid),
+      ],
+    );
   }
 
   Widget buildInputWidget() {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey, width: 0.5)),
-          color: Colors.white),
-      child: Row(
-        children: <Widget>[
-          Flexible(
-            child: TextField(
-              onSubmitted: (value) {},
-              style: const TextStyle(color: Colors.grey, fontSize: 15),
-              controller: textEditingController,
-              decoration: const InputDecoration.collapsed(
-                hintText: 'Type your message...',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-              focusNode: focusNode,
-              autofocus: true,
-            ),
-          ),
-          // Button send message
-          Material(
-            color: Colors.white,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              child: IconButton(
-                icon: const Icon(Icons.send),
-                onPressed: () {},
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return const InputMsgBox();
   }
 
   @override
@@ -80,20 +53,16 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         body: SafeArea(
-          child: WillPopScope(
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    buildBubbleWidget(),
-                    // buildInputWidget(),
-                  ],
-                )
-              ],
-            ),
-            onWillPop: () async {
-              return true;
-            },
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  buildBubbleListWidget(),
+                  buildInputWidget(),
+                  // buildInputWidget(),
+                ],
+              )
+            ],
           ),
         ));
   }
