@@ -1,8 +1,14 @@
+import 'dart:js_interop';
+
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:maid_gpt/comp/bubble_comp.dart';
 import 'package:maid_gpt/comp/msg_input_comp.dart';
+import 'package:maid_gpt/models/conversation.dart';
+import 'package:uuid/uuid.dart';
 
-import '../models/message_chat.dart';
+import '../models/message.dart';
+import '../models/role.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.convId});
@@ -14,6 +20,12 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  List<Message> msgList = [];
+
+  String getConvSPKey() {
+    return 'conv:$widget.convId';
+  }
+
   Widget buildTitleBar() {
     return const Text('');
   }
@@ -27,39 +39,35 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget buildBubbleListWidget() {
     return Wrap(
-      children: [
-        buildBubbleWidget('xxxxxxxxxx', Role.user),
-        buildBubbleWidget('xxxxxxxxxxxxxxxxxxxx', Role.maid),
-        buildBubbleWidget('xxxxxxxxxxxxxxxxxxxxxxxx', Role.user),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget('xxxxx', Role.maid),
-        buildBubbleWidget(
-            'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-            Role.maid),
-      ],
+      children:
+          msgList.map((msg) => buildBubbleWidget(msg.msg, msg.role)).toList(),
     );
   }
 
   Widget buildInputWidget() {
     return MsgInput(
       onSend: (String value) {
-        // TODO 添加一个气泡
+        if (value.isNotEmpty) {
+          setState(() {
+            msgList.add(
+                Message(id: const Uuid().v4(), role: Role.user, msg: value));
+          });
+          // 将消息存本地一份
+          String msgString = Message.encode(msgList);
+          SpUtil.putString(getConvSPKey(), msgString);
+          // TODO 发送请求
+        }
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    String? msgsString = SpUtil.getString(getConvSPKey());
+    if (msgsString.isNull || msgsString == '') return;
+
+    msgList = Message.decode(msgsString!);
   }
 
   @override

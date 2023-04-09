@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maid_gpt/models/message_chat.dart';
+
+import '../models/role.dart';
 
 class Bubble extends StatefulWidget {
   const Bubble({super.key, required this.msg, required this.role});
@@ -14,7 +15,7 @@ class Bubble extends StatefulWidget {
 }
 
 class BubbleState extends State<Bubble> {
-  String msg = '......';
+  String msg = '';
 
   Widget buildRoundRect(
       {required bool isLeft, required List<Widget> children}) {

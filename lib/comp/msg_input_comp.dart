@@ -19,6 +19,7 @@ class MsgInputState extends State<MsgInput> {
 
   void sendMessage() {
     widget.onSend(msg);
+    textEditingController.clear();
     msg = '';
   }
 
@@ -34,7 +35,7 @@ class MsgInputState extends State<MsgInput> {
       height: 50,
       decoration: BoxDecoration(
         border: border,
-        color: Colors.white,
+        color: const Color.fromRGBO(255, 255, 255, 1),
         // borderRadius: const BorderRadius.all(Radius.circular(0.1)),
       ),
       child: Row(

@@ -1,3 +1,4 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,7 +27,16 @@ class _HomePageState extends State<HomePage> {
         MaterialPageRoute(builder: (context) => ChatPage(convId: newConv.id)));
     setState(() {
       convs.add(newConv);
+      // SpUtil.putObjectList('convs', convs);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // List<Conversation>? dataList =
+    //     SpUtil.getObjList('convs', (v) => Conversation.fromJson(v as dynamic));
+    // convs = dataList ?? [];
   }
 
   // 构建会话列表UI

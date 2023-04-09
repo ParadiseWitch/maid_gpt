@@ -1,8 +1,10 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:maid_gpt/pages/chat_page.dart';
 import 'package:maid_gpt/pages/home_page.dart';
 
-void main() {
+void main() async {
+  await SpUtil.getInstance();
   runApp(const MaidGPT());
 }
 
@@ -18,7 +20,7 @@ class MaidGPT extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const HomePage(title: 'MaidGPT'),
-      home: const ChatPage(convId: ''),
+      home: const ChatPage(convId: 'xsds'),
     );
   }
 }
