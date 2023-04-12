@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   uuid: ^3.0.1
+  provider: ^6.0.1
   flutter:
     sdk: flutter
 
@@ -37,7 +38,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.1.0
-  flustars: ^2.0.1
   json_annotation: ^4.8.0
 
 

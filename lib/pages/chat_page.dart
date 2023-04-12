@@ -1,14 +1,13 @@
-import 'dart:js_interop';
-
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:maid_gpt/comp/bubble_comp.dart';
 import 'package:maid_gpt/comp/msg_input_comp.dart';
 import 'package:maid_gpt/models/conversation.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/message.dart';
 import '../models/role.dart';
+import '../store/store.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.convId});
@@ -20,10 +19,17 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<Message> msgList = [];
+  // Conversation? conv;
+  // List<Message> msgList = [];
 
-  String getConvSPKey() {
-    return 'conv:$widget.convId';
+  Conversation getConv(){
+    Store store = Provider.of<Store>(context, listen: false);
+    Conversation conv = store.convMap[widget.convId]!;
+    return conv;
+  }
+
+  List<Message> getMsgList(){
+    return getConv().msgList;
   }
 
   Widget buildTitleBar() {
@@ -38,36 +44,26 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget buildBubbleListWidget() {
+    if(getMsgList().isEmpty){
+      return const SizedBox();
+    }
     return Wrap(
-      children:
-          msgList.map((msg) => buildBubbleWidget(msg.msg, msg.role)).toList(),
+        children:
+        getMsgList().map((msg) => buildBubbleWidget(msg.msg, msg.role)).toList(),
     );
   }
 
   Widget buildInputWidget() {
     return MsgInput(
-      onSend: (String value) {
-        if (value.isNotEmpty) {
-          setState(() {
-            msgList.add(
-                Message(id: const Uuid().v4(), role: Role.user, msg: value));
-          });
-          // 将消息存本地一份
-          String msgString = Message.encode(msgList);
-          SpUtil.putString(getConvSPKey(), msgString);
-          // TODO 发送请求
-        }
+      onSend: (String value) async {
+        Store store = Provider.of<Store>(context, listen: false);
+        setState(() {
+          store.addConvMsg(widget.convId, Message(id: const Uuid().v4(), role: Role.user, msg: value));
+        });
+        // 将消息存本地一份
+        // TODO 发送请求
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    String? msgsString = SpUtil.getString(getConvSPKey());
-    if (msgsString.isNull || msgsString == '') return;
-
-    msgList = Message.decode(msgsString!);
   }
 
   @override
@@ -75,8 +71,8 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: const Center(
-          child: Text('test'),
+        title: Center(
+          child: Text(getConv().title),
         ),
       ),
       body: SafeArea(
