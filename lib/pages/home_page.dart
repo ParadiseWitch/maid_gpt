@@ -23,8 +23,17 @@ class _HomePageState extends State<HomePage> {
     Conversation newConv =
         Conversation(id: const Uuid().v4(), title: '未命名', msgList: []);
 
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ChatPage(convId: newConv.id)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChatPage(
+                  convId: newConv.id,
+                  onBack: () async {
+                    Navigator.pop(context);
+                    setState(() {});
+                    return true;
+                  },
+                )));
 
     Store store = Provider.of<Store>(context, listen: false);
     setState(() {
@@ -52,9 +61,18 @@ class _HomePageState extends State<HomePage> {
           subtitle: Text(conv.getLastMsg()?.msg ?? ''),
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatPage(convId: conv.id)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatPage(
+                  convId: conv.id,
+                  onBack: () async {
+                    Navigator.pop(context);
+                    setState(() {});
+                    return true;
+                  },
+                ),
+              ),
+            );
           },
         );
       },

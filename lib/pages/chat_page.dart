@@ -10,7 +10,9 @@ import '../models/role.dart';
 import '../store/store.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key, required this.convId});
+  ChatPage({super.key, required this.convId, required this.onBack});
+
+  Function onBack = () {};
 
   final String convId;
 
@@ -77,20 +79,25 @@ class _ChatPageState extends State<ChatPage> {
           child: Text(getConv().title),
         ),
       ),
-      body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                buildBubbleListWidget(),
-                const SizedBox(
-                  height: 60,
-                )
-                // buildInputWidget(),
-                // buildInputWidget(),
-              ],
-            )
-          ],
+      body: WillPopScope(
+        onWillPop: () {
+          return widget.onBack();
+        },
+        child: SafeArea(
+          child: ListView(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  buildBubbleListWidget(),
+                  const SizedBox(
+                    height: 60,
+                  )
+                  // buildInputWidget(),
+                  // buildInputWidget(),
+                ],
+              )
+            ],
+          ),
         ),
       ),
       bottomSheet: buildInputWidget(),
