@@ -22,13 +22,13 @@ class _ChatPageState extends State<ChatPage> {
   // Conversation? conv;
   // List<Message> msgList = [];
 
-  Conversation getConv(){
+  Conversation getConv() {
     Store store = Provider.of<Store>(context, listen: false);
     Conversation conv = store.convMap[widget.convId]!;
     return conv;
   }
 
-  List<Message> getMsgList(){
+  List<Message> getMsgList() {
     return getConv().msgList;
   }
 
@@ -44,12 +44,13 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget buildBubbleListWidget() {
-    if(getMsgList().isEmpty){
+    if (getMsgList().isEmpty) {
       return const SizedBox();
     }
     return Wrap(
-        children:
-        getMsgList().map((msg) => buildBubbleWidget(msg.msg, msg.role)).toList(),
+      children: getMsgList()
+          .map((msg) => buildBubbleWidget(msg.msg, msg.role))
+          .toList(),
     );
   }
 
@@ -58,7 +59,8 @@ class _ChatPageState extends State<ChatPage> {
       onSend: (String value) async {
         Store store = Provider.of<Store>(context, listen: false);
         setState(() {
-          store.addConvMsg(widget.convId, Message(id: const Uuid().v4(), role: Role.user, msg: value));
+          store.addConvMsg(widget.convId,
+              Message(id: const Uuid().v4(), role: Role.user, msg: value));
         });
         // 将消息存本地一份
         // TODO 发送请求

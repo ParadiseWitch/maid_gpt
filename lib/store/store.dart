@@ -73,10 +73,7 @@ class Store with ChangeNotifier {
     return json.encode(toMap());
   }
 
-
-  factory Store.fromJson(Map<String, dynamic> json) =>
-      _$StoreFromJson(json);
+  factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
 
   Map<String, dynamic> toJson() => _$StoreToJson(this);
-
 }

@@ -16,12 +16,10 @@ void main() async {
     store = Store.fromJson(storeMap);
   }
 
-  runApp(
-      ChangeNotifierProvider<Store>.value(
-        value: store,
-        child: const MaidGPT(),
-      )
-  );
+  runApp(ChangeNotifierProvider<Store>.value(
+    value: store,
+    child: const MaidGPT(),
+  ));
 }
 
 class MaidGPT extends StatelessWidget {
@@ -30,13 +28,13 @@ class MaidGPT extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
-          useMaterial3: true,
-        ),
-        // debugShowCheckedModeBanner: false,
-        home: const HomePage(title: 'MaidGPT'),
-      );
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+        useMaterial3: true,
+      ),
+      // debugShowCheckedModeBanner: false,
+      home: const HomePage(title: 'MaidGPT'),
+    );
   }
 }

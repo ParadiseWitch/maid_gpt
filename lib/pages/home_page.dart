@@ -31,10 +31,9 @@ class _HomePageState extends State<HomePage> {
       store.addConv(newConv);
     });
     print(store.convMap.toString());
-
   }
 
-  bool hasConvs(){
+  bool hasConvs() {
     Store store = Provider.of<Store>(context, listen: false);
     return store.convMap.isNotEmpty;
   }
@@ -65,8 +64,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,15 +74,17 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Center(
-          child: hasConvs() ? buildConvsWidget() : const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '目前没有会话',
-                    )
-                  ],
-                ),
+        child: hasConvs()
+            ? buildConvsWidget()
+            : const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '目前没有会话',
+                  )
+                ],
               ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.onSecondary,
         onPressed: () {
