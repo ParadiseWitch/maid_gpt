@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maid_gpt/comp/bubble_comp.dart';
 import 'package:maid_gpt/comp/msg_input_comp.dart';
+import 'package:maid_gpt/helper/request_openai.dart';
 import 'package:maid_gpt/models/conversation.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -63,9 +64,31 @@ class _ChatPageState extends State<ChatPage> {
         setState(() {
           store.addConvMsg(widget.convId,
               Message(id: const Uuid().v4(), role: Role.user, msg: value));
+          store.addConvMsg(widget.convId,
+              Message(id: const Uuid().v4(), role: Role.maid, msg: '...'));
         });
         // 将消息存本地一份
         // TODO 发送请求
+
+        String resContent = '';
+        get(
+          '讲个笑话',
+          host: 'openai.maiiiiiid.asia',
+          apiKey: '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',
+          onListen: (String data) {
+            setState(() {
+              store.modifyConvLastMsg(widget.convId, resContent + data);
+            });
+          },
+        ).then((ret) {
+          setState(() {
+            store.modifyConvLastMsg(widget.convId, ret['content']);
+          });
+        }).catchError((e) {
+          setState(() {
+            store.modifyConvLastMsg(widget.convId, e.toString());
+          });
+        });
       },
     );
   }

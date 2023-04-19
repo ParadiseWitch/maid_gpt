@@ -41,6 +41,16 @@ class Store with ChangeNotifier {
     save2Local();
   }
 
+  void modifyConvLastMsg(String cid, String newMsg) async {
+    Conversation? conv = convMap[cid];
+    if (conv == null) return;
+    List<Message> msgList = conv.msgList;
+    msgList[msgList.length - 1].msg = newMsg;
+
+    notifyListeners();
+    save2Local();
+  }
+
   void clearConvMsgs(String cid) async {
     Conversation? conv = convMap[cid];
     if (conv == null) return;
