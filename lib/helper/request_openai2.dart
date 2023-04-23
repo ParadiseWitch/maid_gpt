@@ -1,30 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
-void main() {
-  String resContent = '';
-  get(
-    // '写篇小说',
-    '讲个笑话',
-    // TODO 提交前删除apikey
-    host: 'openai.api2d.net',
-    apiKey: 'fk191492-qPpTsLWzRjJgeVpoAw3rlboHkYYaTKxl',
-    onListen: (String data) {
-      resContent += data;
-      print(resContent);
-    },
-  ).then((ret) {
-    print('===========================');
-    print(ret['status']);
-    print(ret['content']);
-  }).catchError((ret) {
-    print('===========================');
-    print(ret);
-  });
-}
+// void main() {
+//   String resContent = '';
+//   get(
+//     // '写篇小说',
+//     '讲个笑话',
+//     // TODO 提交前删除apikey
+//     host: 'openai.api2d.net',
+//     apiKey: 'fk191492-qPpTsLWzRjJgeVpoAw3rlboHkYYaTKxl',
+//     onListen: (String data) {
+//       resContent += data;
+//       print(resContent);
+//     },
+//   ).then((ret) {
+//     print('===========================');
+//     print(ret['status']);
+//     print(ret['content']);
+//   }).catchError((ret) {
+//     print('===========================');
+//     print(ret);
+//   });
+// }
 
-Future get(
+Future get2(
   String message, {
   required String host,
   required String apiKey,
@@ -100,10 +102,7 @@ Future get(
 
     if (isError) {
       Map errorMap = json.decode(responseString);
-      completer.completeError({
-        'status': 'error',
-        'content': errorMap['error']?['message'] ?? 'can\'t get msg',
-      });
+      completer.completeError(errorMap['error']?['message'] ?? 'can\'t get msg',);
     } else {
       List<String> contentList = responseString
           .trim()
@@ -127,23 +126,27 @@ Future get(
   }
 
   try {
-    var httpClient = HttpClient();
     var uri = Uri.https(host, '/v1/chat/completions');
-    var request = await httpClient.postUrl(uri);
-    request.headers.contentType = ContentType.json;
-    request.headers.add(HttpHeaders.authorizationHeader, 'Bearer $apiKey');
-    request.write(json.encode({
+    var request = http.Request('POST', uri);
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+      "authorization": 'Bearer $apiKey',
+    };
+
+    request.body = json.encode({
       'model': 'gpt-3.5-turbo',
       'stream': true,
       'messages': [
         {'role': 'user', 'content': message}
       ],
       'max_tokens': 340,
-    }));
+    });
 
-    var response = await request.close();
-
-    response.transform(utf8.decoder).listen(listening, onDone: done);
+    http.Client client = http.Client();
+    client.head(uri, headers: headers);
+    StreamedResponse streamedResponse = await client.send(request);
+    streamedResponse.stream.transform(utf8.decoder).listen(listening, onDone: done);
+    client.close();
   } catch (e) {
     completer.completeError(e);
   }

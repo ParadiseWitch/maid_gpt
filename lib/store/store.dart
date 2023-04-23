@@ -16,7 +16,7 @@ class Store with ChangeNotifier {
 
   Map<String, Conversation> convMap = {};
 
-  void addConv(Conversation conv) async {
+  addConv(Conversation conv) {
     String cid = conv.id;
     convMap.putIfAbsent(cid, () => conv);
     notifyListeners();
@@ -25,14 +25,14 @@ class Store with ChangeNotifier {
     save2Local();
   }
 
-  void delConv(String cid) async {
+  delConv(String cid) {
     convMap.remove(cid);
     notifyListeners();
 
     save2Local();
   }
 
-  void addConvMsg(String cid, Message msg) async {
+  void addConvMsg(String cid, Message msg) {
     Conversation? conv = convMap[cid];
     if (conv == null) return;
     conv.msgList.add(msg);
@@ -41,7 +41,7 @@ class Store with ChangeNotifier {
     save2Local();
   }
 
-  void modifyConvLastMsg(String cid, String newMsg) async {
+  modifyConvLastMsg(String cid, String newMsg) {
     Conversation? conv = convMap[cid];
     if (conv == null) return;
     List<Message> msgList = conv.msgList;
@@ -51,7 +51,7 @@ class Store with ChangeNotifier {
     save2Local();
   }
 
-  void clearConvMsgs(String cid) async {
+  void clearConvMsgs(String cid) {
     Conversation? conv = convMap[cid];
     if (conv == null) return;
     conv.msgList = [];
@@ -60,7 +60,7 @@ class Store with ChangeNotifier {
     save2Local();
   }
 
-  void changeConvTitle(String cid, String title) async {
+  void changeConvTitle(String cid, String title) {
     Conversation? conv = convMap[cid];
     if (conv == null) return;
     conv.title = title;
@@ -69,10 +69,10 @@ class Store with ChangeNotifier {
     save2Local();
   }
 
-  void save2Local() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String mapStr = toMapStr();
-    sp.setString(localKey, mapStr);
+  save2Local() async {
+    // SharedPreferences sp = await SharedPreferences.getInstance();
+    // String mapStr = toMapStr();
+    // sp.setString(localKey, mapStr);
   }
 
   Map<String, Map<String, Conversation>> toMap() {

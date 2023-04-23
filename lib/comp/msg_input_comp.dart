@@ -18,6 +18,7 @@ class MsgInputState extends State<MsgInput> {
   String msg = '';
 
   void sendMessage() {
+    if(msg == '') return;
     widget.onSend(msg);
     textEditingController.clear();
     msg = '';
