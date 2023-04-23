@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maid_gpt/app/routers/app_pages.dart';
 import 'package:maid_gpt/app/routers/app_routers.dart';
 
 class App extends StatefulWidget {
