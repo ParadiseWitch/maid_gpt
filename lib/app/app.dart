@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:maid_gpt/app/routers/app_pages.dart';
+import 'package:maid_gpt/app/routers/app_routers.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -16,9 +17,10 @@ class _AppState extends State<App> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
-      initialRoute: '/',
+      initialRoute: AppRouter.home,
       initialBinding: null,
-      getPages: [GetPage(name: 'home', page: () => const Text(''))],
+      getPages: appPages,
+      defaultTransition: Transition.rightToLeft,
       locale: const Locale('zh', 'CN'),
       builder: null,
       debugShowCheckedModeBanner: false,
