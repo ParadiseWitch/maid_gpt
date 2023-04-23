@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maid_gpt/app/binding/app_binding.dart';
 import 'package:maid_gpt/app/routers/app_routers.dart';
 
 class App extends StatefulWidget {
@@ -17,7 +18,7 @@ class _AppState extends State<App> {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
       initialRoute: AppRouter.home,
-      initialBinding: null,
+      initialBinding: AppBinding(),
       getPages: appPages,
       defaultTransition: Transition.rightToLeft,
       locale: const Locale('zh', 'CN'),
