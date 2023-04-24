@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maid_gpt/app/binding/app_binding.dart';
-import 'package:maid_gpt/app/routers/app_routers.dart';
+
+import 'core/binding/app_binding.dart';
+import 'core/routers/app_routers.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);

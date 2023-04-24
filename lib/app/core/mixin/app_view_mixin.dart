@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 
 import 'app_controller_mixin.dart';
 
-mixin AppViewMixin<Controller extends AppControllerMixin>{
+mixin AppPageMixin<Controller extends AppControllerMixin>{
   BuildContext get context => Get.context!;
+
+  String? get tag => null;
+  Controller get controller => GetInstance().find<Controller>(tag: tag);
 
   String? get title => null;
   Color? get backgroundColor => null;
@@ -40,7 +43,7 @@ mixin AppViewMixin<Controller extends AppControllerMixin>{
         body: buildPage(context),
         floatingActionButton: buildFloatingActionButton(context),
         bottomNavigationBar: buildBottomNavigationBar(context),
-        drawer: buildDrawer(),
+        // drawer: buildDrawer(),
       ),
     );
   }
@@ -59,7 +62,7 @@ mixin AppViewMixin<Controller extends AppControllerMixin>{
 
   Widget? buildFloatingActionButton(BuildContext context) => null;
   Widget? buildBottomNavigationBar(BuildContext context) => null;
-  Widget? buildDrawer() => null;
+  // Widget? buildDrawer() => null;
 
 
   void showToast(String message) {
