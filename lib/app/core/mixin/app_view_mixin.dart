@@ -43,7 +43,7 @@ mixin AppPageMixin<Controller extends AppControllerMixin>{
         body: buildPage(context),
         floatingActionButton: buildFloatingActionButton(context),
         bottomNavigationBar: buildBottomNavigationBar(context),
-        // drawer: buildDrawer(),
+        drawer: buildDrawer(),
       ),
     );
   }
@@ -73,5 +73,6 @@ mixin AppPageMixin<Controller extends AppControllerMixin>{
     );
   }
 
+  Widget? buildDrawer() => null;
 }
 

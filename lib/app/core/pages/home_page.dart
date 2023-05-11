@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../controller/home_page_controller.dart';
 import '../mixin/app_view_mixin.dart';
@@ -62,5 +61,7 @@ class HomePage extends StatelessWidget with AppPageMixin<HomePageController>{
     ],
   );
 
+  @override
+  Widget? buildDrawer() => null;
 }
 
